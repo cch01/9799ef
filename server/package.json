@@ -6,7 +6,9 @@
     "dev": "nodemon ./bin/www",
     "debug": "nodemon  --inspect ./bin/www",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit --timeout 30000",
-    "seed": "node db/seed.js"
+    "seed": "node db/seed.js",
+    "db:up": "docker-compose up",
+    "db:down": "docker-compose down"
   },
   "dependencies": {
     "connect-session-sequelize": "^7.0.4",
@@ -25,6 +27,12 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "mocha": "^8.2.1"
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^8.2.1",
+    "prettier": "^2.5.1"
   }
 }
