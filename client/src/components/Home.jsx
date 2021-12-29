@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { Grid, CssBaseline, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { SidebarContainer } from "./Sidebar";
-import { ActiveChat } from "./ActiveChat";
-import { logout, fetchConversations } from "../store/utils/thunkCreators";
-import { clearOnLogout } from "../store/index";
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Grid, CssBaseline, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { SidebarContainer } from './Sidebar';
+import { ActiveChat } from './ActiveChat';
+import { logout, fetchConversations } from '../store/utils/thunkCreators';
+import { clearOnLogout } from '../store/index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh"
-  }
+    height: '100vh',
+  },
 }));
 
-const Home = (props) => {
+function Home(props) {
   const classes = useStyles();
   const { user, logout, fetchConversations } = props;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,25 +52,21 @@ const Home = (props) => {
       </Grid>
     </>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    conversations: state.conversations
-  };
-};
+const mapStateToProps = (state) => ({
+  user: state.user,
+  conversations: state.conversations,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: (id) => {
-      dispatch(logout(id));
-      dispatch(clearOnLogout());
-    },
-    fetchConversations: () => {
-      dispatch(fetchConversations());
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  logout: (id) => {
+    dispatch(logout(id));
+    dispatch(clearOnLogout());
+  },
+  fetchConversations: () => {
+    dispatch(fetchConversations());
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

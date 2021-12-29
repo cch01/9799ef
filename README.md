@@ -14,6 +14,16 @@ CREATE DATABASE messenger;
 \q
 ```
 
+Or run the script using docker:
+```
+// startup db
+npm run db:up
+
+// shutdown and remove db
+npm run db:down
+```
+
+
 Update db.js to connect with your local PostgreSQL set up. The [Sequelize documentation](https://sequelize.org/master/manual/getting-started.html) can help with this.
 
 Create a .env file in the server directory and add your session secret (this can be any string):

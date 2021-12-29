@@ -1,6 +1,6 @@
-import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   Grid,
   Box,
@@ -8,10 +8,10 @@ import {
   Button,
   FormControl,
   TextField,
-} from "@material-ui/core";
-import { login } from "./store/utils/thunkCreators";
+} from '@material-ui/core';
+import { login } from './store/utils/thunkCreators';
 
-const Login = (props) => {
+function Login(props) {
   const history = useHistory();
   const { user, login } = props;
 
@@ -32,7 +32,7 @@ const Login = (props) => {
       <Box>
         <Grid container item>
           <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
+          <Button onClick={() => history.push('/register')}>Register</Button>
         </Grid>
         <form onSubmit={handleLogin}>
           <Grid>
@@ -64,20 +64,16 @@ const Login = (props) => {
       </Box>
     </Grid>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (credentials) => {
-      dispatch(login(credentials));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  login: (credentials) => {
+    dispatch(login(credentials));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

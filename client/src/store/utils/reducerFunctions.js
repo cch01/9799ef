@@ -16,35 +16,30 @@ export const addMessageToStore = (state, payload) => {
       convo.messages.push(message);
       convo.latestMessageText = message.text;
       return convo;
-    } else {
-      return convo;
     }
+    return convo;
   });
 };
 
-export const addOnlineUserToStore = (state, id) => {
-  return state.map((convo) => {
+export const addOnlineUserToStore = (state, id) =>
+  state.map((convo) => {
     if (convo.otherUser.id === id) {
       const convoCopy = { ...convo };
       convoCopy.otherUser = { ...convoCopy.otherUser, online: true };
       return convoCopy;
-    } else {
-      return convo;
     }
+    return convo;
   });
-};
 
-export const removeOfflineUserFromStore = (state, id) => {
-  return state.map((convo) => {
+export const removeOfflineUserFromStore = (state, id) =>
+  state.map((convo) => {
     if (convo.otherUser.id === id) {
       const convoCopy = { ...convo };
       convoCopy.otherUser = { ...convoCopy.otherUser, online: false };
       return convoCopy;
-    } else {
-      return convo;
     }
+    return convo;
   });
-};
 
 export const addSearchedUsersToStore = (state, users) => {
   const currentUsers = {};
@@ -58,7 +53,7 @@ export const addSearchedUsersToStore = (state, users) => {
   users.forEach((user) => {
     // only create a fake convo if we don't already have a convo with this user
     if (!currentUsers[user.id]) {
-      let fakeConvo = { otherUser: user, messages: [] };
+      const fakeConvo = { otherUser: user, messages: [] };
       newState.push(fakeConvo);
     }
   });
@@ -66,15 +61,13 @@ export const addSearchedUsersToStore = (state, users) => {
   return newState;
 };
 
-export const addNewConvoToStore = (state, recipientId, message) => {
-  return state.map((convo) => {
+export const addNewConvoToStore = (state, recipientId, message) =>
+  state.map((convo) => {
     if (convo.otherUser.id === recipientId) {
       convo.id = message.conversationId;
       convo.messages.push(message);
       convo.latestMessageText = message.text;
       return convo;
-    } else {
-      return convo;
     }
+    return convo;
   });
-};

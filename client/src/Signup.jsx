@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   Grid,
   Box,
@@ -9,10 +9,10 @@ import {
   FormControl,
   TextField,
   FormHelperText,
-} from "@material-ui/core";
-import { register } from "./store/utils/thunkCreators";
+} from '@material-ui/core';
+import { register } from './store/utils/thunkCreators';
 
-const Login = (props) => {
+function Login(props) {
   const history = useHistory();
   const { user, register } = props;
   const [formErrorMessage, setFormErrorMessage] = useState({});
@@ -25,7 +25,7 @@ const Login = (props) => {
     const confirmPassword = event.target.confirmPassword.value;
 
     if (password !== confirmPassword) {
-      setFormErrorMessage({ confirmPassword: "Passwords must match" });
+      setFormErrorMessage({ confirmPassword: 'Passwords must match' });
       return;
     }
 
@@ -41,7 +41,7 @@ const Login = (props) => {
       <Box>
         <Grid container item>
           <Typography>Need to log in?</Typography>
-          <Button onClick={() => history.push("/login")}>Login</Button>
+          <Button onClick={() => history.push('/login')}>Login</Button>
         </Grid>
         <form onSubmit={handleRegister}>
           <Grid>
@@ -105,20 +105,16 @@ const Login = (props) => {
       </Box>
     </Grid>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    register: (credentials) => {
-      dispatch(register(credentials));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  register: (credentials) => {
+    dispatch(register(credentials));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
