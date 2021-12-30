@@ -23,13 +23,10 @@ export const gotConversations = (conversations) => ({
   conversations,
 });
 
-export const setNewMessage = (message, sender) => {
-  console.log(`setNewMessage`);
-  return {
-    type: SET_MESSAGE,
-    payload: { message, sender: sender || null },
-  };
-};
+export const setNewMessage = (message, sender) => ({
+  type: SET_MESSAGE,
+  payload: { message, sender: sender || null },
+});
 
 export const addOnlineUser = (id) => ({
   type: ADD_ONLINE_USER,

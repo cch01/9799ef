@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -21,22 +21,22 @@ const useStyles = makeStyles((theme) => ({
 
 function Chat(props) {
   const classes = useStyles();
-  const { conversation } = props;
-  const { otherUser } = conversation;
+  const { latestMessageText, otherUser, setActiveChat } = props;
+  const { photoUrl, username, online } = otherUser;
 
-  const handleClick = async (conversation) => {
-    await props.setActiveChat(conversation.otherUser.username);
-  };
+  const handleClick = useCallback(async () => {
+    await setActiveChat(username);
+  }, [username, setActiveChat]);
 
   return (
-    <Box onClick={() => handleClick(conversation)} className={classes.root}>
+    <Box onClick={handleClick} className={classes.root}>
       <BadgeAvatar
-        photoUrl={otherUser.photoUrl}
-        username={otherUser.username}
-        online={otherUser.online}
+        photoUrl={photoUrl}
+        username={username}
+        online={online}
         sidebar
       />
-      <ChatContent conversation={conversation} />
+      <ChatContent latestMessageText={latestMessageText} username={username} />
     </Box>
   );
 }

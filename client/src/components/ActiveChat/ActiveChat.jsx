@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -22,26 +22,33 @@ const useStyles = makeStyles(() => ({
 
 function ActiveChat(props) {
   const classes = useStyles();
-  const { user } = props;
-  const conversation = props.conversation || {};
+  const { user, activeConversation, conversations } = props;
+
+  const currentConversation = useMemo(
+    () =>
+      conversations?.find(
+        (conversation) => conversation.otherUser.username === activeConversation
+      ),
+    [conversations, activeConversation]
+  );
 
   return (
     <Box className={classes.root}>
-      {conversation.otherUser && (
+      {currentConversation?.otherUser && (
         <>
           <Header
-            username={conversation.otherUser.username}
-            online={conversation.otherUser.online || false}
+            username={currentConversation.otherUser.username}
+            online={currentConversation.otherUser.online || false}
           />
           <Box className={classes.chatContainer}>
             <Messages
-              messages={conversation.messages}
-              otherUser={conversation.otherUser}
+              messages={currentConversation.messages}
+              otherUser={currentConversation.otherUser}
               userId={user.id}
             />
             <Input
-              otherUser={conversation.otherUser}
-              conversationId={conversation.id}
+              otherUser={currentConversation.otherUser}
+              conversationId={currentConversation.id}
               user={user}
             />
           </Box>
@@ -53,12 +60,8 @@ function ActiveChat(props) {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  conversation:
-    state.conversations &&
-    state.conversations.find(
-      (conversation) =>
-        conversation.otherUser.username === state.activeConversation
-    ),
+  conversations: state.conversations,
+  activeConversation: state.activeConversation,
 });
 
 export default connect(mapStateToProps, null)(ActiveChat);

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { Search, Chat, CurrentUser } from './index.js';
+import { Search, Chat, CurrentUser } from '.';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,24 +21,34 @@ const useStyles = makeStyles(() => ({
 
 function Sidebar(props) {
   const classes = useStyles();
-  const conversations = props.conversations || [];
+  const { conversations = [] } = props;
   const { handleChange, searchTerm } = props;
+
+  const chats = useMemo(
+    () =>
+      conversations
+        .filter((conversation) =>
+          conversation.otherUser.username.includes(searchTerm)
+        )
+        .map((conversation) => {
+          const { latestMessageText, otherUser } = conversation;
+          return (
+            <Chat
+              latestMessageText={latestMessageText}
+              otherUser={otherUser}
+              key={conversation.otherUser.username}
+            />
+          );
+        }),
+    [conversations, searchTerm]
+  );
 
   return (
     <Box className={classes.root}>
       <CurrentUser />
       <Typography className={classes.title}>Chats</Typography>
       <Search handleChange={handleChange} />
-      {conversations
-        .filter((conversation) =>
-          conversation.otherUser.username.includes(searchTerm)
-        )
-        .map((conversation) => (
-          <Chat
-            conversation={conversation}
-            key={conversation.otherUser.username}
-          />
-        ))}
+      {chats}
     </Box>
   );
 }
