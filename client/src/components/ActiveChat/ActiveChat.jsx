@@ -22,33 +22,25 @@ const useStyles = makeStyles(() => ({
 
 function ActiveChat(props) {
   const classes = useStyles();
-  const { user, activeConversation, conversations } = props;
-
-  const currentConversation = useMemo(
-    () =>
-      conversations?.find(
-        (conversation) => conversation.otherUser.username === activeConversation
-      ),
-    [conversations, activeConversation]
-  );
+  const { user, conversation } = props;
 
   return (
     <Box className={classes.root}>
-      {currentConversation?.otherUser && (
+      {conversation?.otherUser && (
         <>
           <Header
-            username={currentConversation.otherUser.username}
-            online={currentConversation.otherUser.online || false}
+            username={conversation.otherUser.username}
+            online={conversation.otherUser.online || false}
           />
           <Box className={classes.chatContainer}>
             <Messages
-              messages={currentConversation.messages}
-              otherUser={currentConversation.otherUser}
+              messages={conversation.messages}
+              otherUser={conversation.otherUser}
               userId={user.id}
             />
             <Input
-              otherUser={currentConversation.otherUser}
-              conversationId={currentConversation.id}
+              otherUser={conversation.otherUser}
+              conversationId={conversation.id}
               user={user}
             />
           </Box>
@@ -60,8 +52,12 @@ function ActiveChat(props) {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  conversations: state.conversations,
-  activeConversation: state.activeConversation,
+  conversation:
+    state.conversations &&
+    state.conversations.find(
+      (conversation) =>
+        conversation.otherUser.username === state.activeConversation
+    ),
 });
 
 export default connect(mapStateToProps, null)(ActiveChat);
