@@ -24,12 +24,11 @@ function Chat(props) {
   const { latestMessageText, otherUser, setActiveChat } = props;
   const { photoUrl, username, online } = otherUser;
 
-  const handleClick = useCallback(async () => {
-    await setActiveChat(username);
-  }, [username, setActiveChat]);
-
+  const handleClick = async (username) => {
+    await props.setActiveChat(username);
+  };
   return (
-    <Box onClick={handleClick} className={classes.root}>
+    <Box onClick={() => handleClick(username)} className={classes.root}>
       <BadgeAvatar
         photoUrl={photoUrl}
         username={username}
