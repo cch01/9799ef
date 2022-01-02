@@ -10,6 +10,9 @@ const Message = db.define('message', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  recipientReadAt: {
+    type: Sequelize.DATE,
+  },
 });
 
 module.exports = Message;
