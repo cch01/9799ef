@@ -51,6 +51,10 @@ function Chat(props) {
   const handleClick = async (username) => {
     await setActiveChat(username);
   };
+
+  const isNeededToDisplayUnreadBadge =
+    !!unreadMessages.length && !isActiveConversation;
+
   return (
     <Box onClick={() => handleClick(username)} className={classes.root}>
       <BadgeAvatar
@@ -64,8 +68,8 @@ function Chat(props) {
         latestMessageText={latestMessageText}
         username={username}
       />
-      {!!unreadMessages.length && !isActiveConversation && (
-        <div className={classes.badge}>{unreadMessages.length}</div>
+      {isNeededToDisplayUnreadBadge && (
+        <Box className={classes.badge}>{unreadMessages.length}</Box>
       )}
     </Box>
   );
