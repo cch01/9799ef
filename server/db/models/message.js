@@ -10,8 +10,9 @@ const Message = db.define('message', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  recipientReadAt: {
-    type: Sequelize.DATE,
+  isReadByRecipient: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 });
 

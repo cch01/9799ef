@@ -28,8 +28,8 @@ function ActiveChat(props) {
     () =>
       conversation?.messages
         ?.filter(
-          ({ recipientReadAt, senderId }) =>
-            !recipientReadAt && senderId !== user.id
+          ({ isReadByRecipient, senderId }) =>
+            !isReadByRecipient && senderId !== user.id
         )
         .map(({ id }) => id),
     [conversation]

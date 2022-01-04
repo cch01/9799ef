@@ -76,7 +76,7 @@ export const addNewConvoToStore = (state, recipientId, message) =>
 
 export const setReadMessageToStore = (
   state,
-  { updatedMessageIds, newRecipientReadAt, conversationId }
+  { updatedMessageIds, conversationId }
 ) =>
   state.map((convo) => {
     if (convo.id === conversationId) {
@@ -84,7 +84,7 @@ export const setReadMessageToStore = (
       convoCopy.messages = convoCopy.messages.map((message) => {
         if (updatedMessageIds.includes(message.id)) {
           const copyMsg = { ...message };
-          copyMsg.recipientReadAt = newRecipientReadAt;
+          copyMsg.isReadByRecipient = true;
           return copyMsg;
         }
         return message;

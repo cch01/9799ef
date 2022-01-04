@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const moment = require('moment');
 const { Conversation, Message } = require('../../db/models');
 const onlineUsers = require('../../onlineUsers');
 
@@ -65,19 +64,19 @@ router.post('/confirm-read', async (req, res, next) => {
     );
 
     if (!targetConversation || targetConversation?.id !== conversationId) {
-      return res.status(400).send('Conversation not found');
+      return res
+        .status(403)
+        .send('Illegal access: user not part of the conversation');
     }
 
-    const newRecipientReadAt = Date.now();
-
     const updatedResults = await Message.update(
-      { recipientReadAt: newRecipientReadAt },
+      { isReadByRecipient: true },
       {
         where: {
           id: messageIds,
           senderId: messageSenderId,
           conversationId,
-          recipientReadAt: null,
+          isReadByRecipient: false,
         },
         returning: true,
       }
@@ -93,7 +92,6 @@ router.post('/confirm-read', async (req, res, next) => {
 
     return res.json({
       updatedMessageIds: updatedTargetMessages.map(({ id }) => id),
-      newRecipientReadAt: moment(newRecipientReadAt),
     });
   } catch (error) {
     next(error);

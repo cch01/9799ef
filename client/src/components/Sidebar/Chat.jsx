@@ -42,8 +42,8 @@ function Chat(props) {
       isActiveConversation
         ? []
         : messages.filter(
-            ({ senderId, recipientReadAt }) =>
-              senderId === otherUserId && !recipientReadAt
+            ({ senderId, isReadByRecipient }) =>
+              senderId === otherUserId && !isReadByRecipient
           ),
     [messages.length, otherUserId, isActiveConversation]
   );

@@ -126,15 +126,12 @@ export const markAsRead =
         messageSenderId,
         conversationId,
       });
-      const { updatedMessageIds, newRecipientReadAt } = data;
+      const { updatedMessageIds } = data;
       socket.emit('message-read-confirm', {
         updatedMessageIds,
         conversationId,
-        newRecipientReadAt,
       });
-      dispatch(
-        setMessagesRead(updatedMessageIds, conversationId, newRecipientReadAt)
-      );
+      dispatch(setMessagesRead(updatedMessageIds, conversationId));
     } catch (error) {
       console.error(error);
     }

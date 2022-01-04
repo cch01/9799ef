@@ -30,13 +30,9 @@ export const setNewMessage = (message, sender) => ({
   payload: { message, sender: sender || null },
 });
 
-export const setMessagesRead = (
-  updatedMessageIds,
-  conversationId,
-  newRecipientReadAt
-) => ({
+export const setMessagesRead = (updatedMessageIds, conversationId) => ({
   type: SET_MESSAGES_READ,
-  payload: { updatedMessageIds, conversationId, newRecipientReadAt },
+  payload: { updatedMessageIds, conversationId },
 });
 
 export const addOnlineUser = (id) => ({

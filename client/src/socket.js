@@ -16,14 +16,9 @@ socket.on('connect', () => {
     store.dispatch(addOnlineUser(id));
   });
 
-  socket.on(
-    'message-read-confirm',
-    ({ updatedMessageIds, conversationId, newRecipientReadAt }) => {
-      store.dispatch(
-        setMessagesRead(updatedMessageIds, conversationId, newRecipientReadAt)
-      );
-    }
-  );
+  socket.on('message-read-confirm', ({ updatedMessageIds, conversationId }) => {
+    store.dispatch(setMessagesRead(updatedMessageIds, conversationId));
+  });
 
   socket.on('remove-offline-user', (id) => {
     store.dispatch(removeOfflineUser(id));
