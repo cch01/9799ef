@@ -59,7 +59,11 @@ function Chat(props) {
         online={online}
         sidebar
       />
-      <ChatContent latestMessageText={latestMessageText} username={username} />
+      <ChatContent
+        hasUnreadMessage={!!unreadMessages.length}
+        latestMessageText={latestMessageText}
+        username={username}
+      />
       {!!unreadMessages.length && !isActiveConversation && (
         <div className={classes.badge}>{unreadMessages.length}</div>
       )}
