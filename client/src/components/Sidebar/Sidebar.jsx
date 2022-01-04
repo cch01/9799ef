@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { Search, Chat, CurrentUser } from './index.js';
+import { Search, Chat, CurrentUser } from '.';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
 
 function Sidebar(props) {
   const classes = useStyles();
-  const conversations = props.conversations || [];
+  const { conversations = [] } = props;
   const { handleChange, searchTerm } = props;
 
   return (
@@ -35,7 +35,8 @@ function Sidebar(props) {
         )
         .map((conversation) => (
           <Chat
-            conversation={conversation}
+            latestMessageText={conversation.latestMessageText}
+            otherUser={conversation.otherUser}
             key={conversation.otherUser.username}
           />
         ))}

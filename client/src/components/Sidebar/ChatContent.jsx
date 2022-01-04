@@ -22,16 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ChatContent(props) {
   const classes = useStyles();
-
-  const { conversation } = props;
-  const { latestMessageText, otherUser } = conversation;
+  const { latestMessageText, username } = props;
 
   return (
     <Box className={classes.root}>
       <Box>
-        <Typography className={classes.username}>
-          {otherUser.username}
-        </Typography>
+        <Typography className={classes.username}>{username}</Typography>
         <Typography className={classes.previewText}>
           {latestMessageText}
         </Typography>
