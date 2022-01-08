@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Box } from '@material-ui/core';
+import { Badge, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { BadgeAvatar, ChatContent } from '.';
@@ -18,14 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   badge: {
-    borderRadius: '0.75rem',
-    fontFamily: 'Open Sans, sans-serif',
-    padding: '3px 8px',
-    marginRight: '1rem',
-    backgroundColor: '#3F92FF',
-    fontSize: '12px',
-    color: 'white',
-    fontWeight: 'bold',
+    right: 34,
   },
 }));
 
@@ -52,9 +45,6 @@ function Chat(props) {
     await setActiveChat(username);
   };
 
-  const isNeededToDisplayUnreadBadge =
-    !!unreadMessages.length && !isActiveConversation;
-
   return (
     <Box onClick={() => handleClick(username)} className={classes.root}>
       <BadgeAvatar
@@ -68,9 +58,13 @@ function Chat(props) {
         latestMessageText={latestMessageText}
         username={username}
       />
-      {isNeededToDisplayUnreadBadge && (
-        <Box className={classes.badge}>{unreadMessages.length}</Box>
-      )}
+      <Badge
+        classes={{
+          root: classes.badge,
+        }}
+        badgeContent={unreadMessages.length}
+        color="primary"
+      />
     </Box>
   );
 }
