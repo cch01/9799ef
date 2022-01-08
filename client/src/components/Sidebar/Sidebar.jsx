@@ -34,11 +34,7 @@ function Sidebar(props) {
           conversation.otherUser.username.includes(searchTerm)
         )
         .map((conversation) => (
-          <Chat
-            latestMessageText={conversation.latestMessageText}
-            otherUser={conversation.otherUser}
-            key={conversation.otherUser.username}
-          />
+          <Chat conversation={conversation} />
         ))}
     </Box>
   );

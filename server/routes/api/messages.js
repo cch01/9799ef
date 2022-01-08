@@ -43,4 +43,59 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.post('/confirm-read', async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const requestCallerId = req.user.id;
+    const { messageIds, messageSenderId, conversationId } = req.body;
+
+    if (!messageIds?.length || !messageSenderId) {
+      return res
+        .status(400)
+        .send('Please include messageIds and MessageSenderId');
+    }
+
+    // NOTE cross check whether the request caller really the one in the conversation
+    const targetConversation = await Conversation.findConversation(
+      requestCallerId,
+      messageSenderId
+    );
+
+    if (!targetConversation || targetConversation?.id !== conversationId) {
+      return res
+        .status(403)
+        .send('Illegal access: user not part of the conversation');
+    }
+
+    const updatedResults = await Message.update(
+      { isReadByRecipient: true },
+      {
+        where: {
+          id: messageIds,
+          senderId: messageSenderId,
+          conversationId,
+          isReadByRecipient: false,
+        },
+        returning: true,
+      }
+    );
+
+    // NOTE: check whether message exist and they has been confirmed read
+    if (!updatedResults[0]) {
+      return res
+        .status(400)
+        .send('messages not found / all messages have been read');
+    }
+    const updatedTargetMessages = updatedResults[1];
+
+    return res.json({
+      updatedMessageIds: updatedTargetMessages.map(({ id }) => id),
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
